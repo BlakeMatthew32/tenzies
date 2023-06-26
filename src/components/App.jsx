@@ -33,7 +33,12 @@ function App() {
   }
 
   const diceElements = dice.map(die => {
-    return <Dice value={die.value} handleHold={handleHold} key={die.id} />
+    return <Dice 
+      value={die.value} 
+      handleHold={handleHold} 
+      isHeld={die.isHeld} 
+      key={die.id} 
+    />
   })
 
   console.log(diceElements)
