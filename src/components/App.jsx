@@ -26,11 +26,24 @@ function App() {
 
   function rollDice() {
     //when set state check if held, if its true dice value should remain the same
-    setDice(allNewDice())
+    // setDice(allNewDice())
+    setDice(prevDice => {
+      const updatedDice = prevDice.map(die => {
+        if(die.isHeld){
+          return die
+        } else {
+          return { 
+            value: Math.floor(Math.random() * 6 + 1),
+            isHeld: false,
+            id: nanoid(10)
+          }
+        }
+      })
+      return updatedDice
+    })
   }
 
   function handleHold(id) {
-    console.log(id)
     setDice(prevDice => {
       const updatedDice = prevDice.map(die => {
         if(die.id === id){
