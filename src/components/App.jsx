@@ -6,6 +6,7 @@ import Dice from './Dice'
 function App() {
 
   const [dice, setDice] = useState(allNewDice())
+  
 
   function allNewDice() {
     const diceValues = []
@@ -28,15 +29,27 @@ function App() {
     setDice(allNewDice())
   }
 
-  function handleHold() {
-    console.log('hold')
+  function handleHold(id) {
+    console.log(id)
+    setDice(prevDice => {
+      const updatedDice = prevDice.map(die => {
+        if(die.id === id){
+          return {...die, isHeld: !die.isHeld}
+        } else {
+          return die
+        }
+      })
+
+      return updatedDice
+    })
   }
 
   const diceElements = dice.map(die => {
     return <Dice 
       value={die.value} 
       handleHold={handleHold} 
-      isHeld={die.isHeld} 
+      isHeld={die.isHeld}
+      id={die.id} 
       key={die.id} 
     />
   })
