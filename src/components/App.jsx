@@ -8,6 +8,7 @@ function App() {
 
   const [dice, setDice] = useState(allNewDice())
   const [tenzies, setTenzies] = useState(false)
+  const [numRolls, setNumRolls] = useState(0)
 
   useEffect(() => {
     const allMatch = dice.every(die => die.isHeld && die.value === dice[0].value)
@@ -38,6 +39,7 @@ function App() {
   }
 
   function rollDice() {
+
     setDice(prevDice => {
       return prevDice.map(die => {
         if(die.isHeld){
@@ -47,6 +49,17 @@ function App() {
         }
       }) //end of map
     }) //end of setDice
+
+    setNumRolls(prevNum => {
+      return prevNum + 1
+    })
+
+  }
+
+  function resetGame() {
+    setTenzies(false)
+    setNumRolls(0)
+    setDice(allNewDice())
   }
 
   function handleHold(id) {
@@ -66,10 +79,6 @@ function App() {
     }) //end of setDice
   }
 
-  function resetGame() {
-    setTenzies(false)
-    setDice(allNewDice())
-  }
 
   const diceElements = dice.map(die => {
     return <Dice 
@@ -84,8 +93,8 @@ function App() {
     <main className="main--container">
       {tenzies && <Confetti />}
       <div className="game_info--container">
-        <h1 className="title">Tenzies</h1>
-        <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
+        <h1 className="title">{tenzies ? `You won with ${numRolls} Rolls` : 'Tenzies'}</h1>
+        {!tenzies && <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>}
       </div>
       <div className='dice--container'>
         {...diceElements}
