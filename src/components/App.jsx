@@ -50,9 +50,14 @@ function App() {
   }
 
   function handleHold(id) {
+
     setDice(prevDice => {
+      const selectedDie = prevDice.filter(die => die.id === id)[0]
+
       return prevDice.map(die => {
-        if(die.id === id){
+        if(die.id === id || 
+          (die.value === selectedDie.value && die.isHeld === selectedDie.isHeld)
+        ){
           return {...die, isHeld: !die.isHeld}
         } else {
           return die
